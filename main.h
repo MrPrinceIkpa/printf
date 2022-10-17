@@ -17,6 +17,7 @@ typedef struct printer
 	int (*run)(va_list);
 } printer;
 
+int _strlen(const char *s);
 printer _get_print(const char *specifier);
 int _putchar(char c);
 int _printf(const char *format, ...);

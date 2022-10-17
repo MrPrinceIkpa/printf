@@ -1,12 +1,28 @@
 #include "main.h"
 
 /**
+ * _strlen - Returns the length of a string
+ * @s: The string
+ *
+ * Return: The length of the string
+ */
+int _strlen(const char *s)
+{
+	int len = 0;
+
+	while (s[len])
+		len++;
+
+	return (len);
+}
+
+/**
  * _print_char - prints a character
  * @args: the arguments list
  *
  * Return: 1 (number of chars printed)
  */
- 
+
 int _print_char(va_list args)
 {
 	char ch = (char)va_arg(args, int);
