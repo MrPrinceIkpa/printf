@@ -24,7 +24,7 @@ int _printf(const char *format, ...)
 			characters_prt++;
 		}
 		if (!format[i])
-			return (character_prt);
+			return (characters_prt);
 		if (format[i] == '%' && _strlen(format) == 1)
 			return (-1);
 		printer = _get_print(&format[i + 1]);
