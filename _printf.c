@@ -8,43 +8,38 @@
  */
 int _printf(const char *format, ...)
 {
-	va_list args;
-	printer printer;
-	int i = 0;
-	int characters_prt = 0;
+	int (*pfunct)(va_list, flags_t *);
+	const char *p;
+	va_list arguments;
+	flags_t flags = {0, 0, 0};
 
-	if (format == NULL)
+	register int count = 0;
+
+	va_start(arguments, format);
+	if (!format || (format[0] == '%' && !format[1]))
 		return (-1);
-	va_start(args, format);
-	while (format[i])
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (p = format; *p; p++)
 	{
-		for (; format[i] != '%' && format[i]; i++)
+		if (*p == '%')
 		{
-			_putchar(format[i]);
-			characters_prt++;
-		}
-		if (!format[i])
-			return (characters_prt);
-		if (format[i] == '%' && _strlen(format) == 1)
-			return (-1);
-		printer = _get_print(&format[i + 1]);
-		if (printer.specifier != NULL)
-		{
-			characters_prt += printer.run(args);
-			i += 2;
-			continue;
-		}
-		if (!format[i + 1])
-			return (characters_prt);
-
-		_putchar(!format[i + 1]);
-		characters_prt++;
-
-		if (format[i + 1] == '%')
-			i += 2;
-		else
-			i++;
+			p++;
+			if (*p == '%')
+			{
+				count += _putchar('%');
+				continue;
+			}
+			while (get_flag(*p, &flags))
+				p++;
+			pfunc = get_print(*p);
+			count += (pfunc)
+				? pfunc(arguments, &flags)
+				: _printf("%%%c", *p);
+		} else
+			count += _putchar(*p);
 	}
-	va_end(args);
-	return (characters_prt);
+	_putchar(-1);
+	va_end(arguments);
+	return (count);	
 }
